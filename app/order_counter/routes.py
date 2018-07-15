@@ -4,13 +4,24 @@ from flask_login import login_required
 from app import db
 from app.models import Item, Genre
 from app.order_counter import bp
-from app.order_counter.forms import EditItemForm
+from app.order_counter.forms import EditItemForm, InputDateForm
 
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
+def input_date():
+    form = InputDateForm()
+    if form.validate_on_submit():
+
+    return render_template('order_counter/input_date.html', form=form)
+
+
+@bp.route('/order_counter', methods=['GET', 'POST'])
 def order_counter():
-    pass
+    item_list = Item.get_sale_list()
+    return render_template('order_counter/order_counter.html',
+                           title='order_counter',
+                           item_list=item_list)
 
 
 @bp.route('/edit_item', methods=['GET', 'POST'])

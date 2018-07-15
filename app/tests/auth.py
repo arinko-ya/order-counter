@@ -29,10 +29,3 @@ class AuthTest(unittest.TestCase):
         user = User.query.filter_by(name='test_user').first()
 
         self.assertTrue(user)
-
-    def test_password_change(self):
-        User.create('test_user', 'password')
-        User.password_change('test_user', 'new_password')
-        user = User.query.filter_by(name='test_user').first()
-
-        self.assertTrue(user.check_password('new_password'))

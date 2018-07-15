@@ -1,0 +1,32 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <h1>Order Counter</h1>
+    <div class="table">
+    {%- for item in item_list -%}
+      <div class="tr">
+        <span class="td name">{{ item.name }}</span>
+        <span class="td">{{ item.price }}</span>
+        <span class="td">
+          <form>
+            <input class="btn btn-primary" type=button value="＋" onClick="plus(this.form.val{{ item.id }})">
+            <input type=text name=val{{ item.id }} value=0 size=4>
+            <input class="btn btn-danger" type=button value="－" onClick="minus(this.form.val{{ item.id }})">
+          </form>
+        </span>
+      </div>
+    {%- endfor -%}
+    </div>
+{%- endblock -%}
+
+{%- block js_area -%}
+<script language="JavaScript">
+  function plus(chk) {
+    chk.value++;
+  }
+  function minus(chk){
+    if (chk.value != 0) {
+      chk.value--;
+    }
+  }
+</script>
+{%- endblock -%}

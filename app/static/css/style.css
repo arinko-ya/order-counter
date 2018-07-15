@@ -1,18 +1,16 @@
 div.table {
   display: table; }
+  div.table .name {
+    width: 400px; }
   div.table .tr {
     display: table-row; }
     div.table .tr span.td {
       display: table-cell;
-      padding: 8px 0;
-      text-align: center; }
+      padding: 8px 0; }
     div.table .tr span.th {
       display: table-cell;
       font-weight: bold;
-      padding: 10px 0;
-      text-align: center; }
-  div.table div.tr {
-    background: #ececec; }
+      padding: 10px 0; }
 
 span.error {
   color: red;

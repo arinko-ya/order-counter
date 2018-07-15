@@ -51,9 +51,17 @@ def register():
 
 
 @login_required
-@bp.route('/password_change')
+@bp.route('/password_change', methods=['GET', 'POST'])
 def password_change():
     form = PasswordChangeForm()
-
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=current_user.id).first()
+        if not user.check_password(form.current_password.data):
+            flash('Current password is incorrect', category='danger')
+            return redirect(url_for('order_counter.password_change'))
+        user.password_change(form.new_password.data)
+        flash('Password changed')
+        logout_user()
+        return redirect(url_for('auth.login'))
     return render_template('auth/password_change.html',
                            title='Password Change', form=form)

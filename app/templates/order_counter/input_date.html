@@ -1,0 +1,13 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+<h1>Order Counter</h1>
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  {{ form.input_date.label }}
+  {{ form.input_date }}
+  {%- for error in form.input_date.errors -%}
+    <span class="error">[{{ error }}]</span>
+  {%- endfor -%}
+  {{ form.submit }}
+</form>
+{%- endblock -%}

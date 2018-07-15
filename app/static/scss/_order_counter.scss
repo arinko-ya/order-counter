@@ -1,20 +1,18 @@
 div.table {
   display: table;
+  .name {
+    width: 400px;
+  }
   .tr {
     display: table-row;
     span.td {
       display: table-cell;
       padding: 8px 0;
-      text-align: center;
     }
     span.th {
       display: table-cell;
       font-weight: bold;
       padding: 10px 0;
-      text-align: center;
     }
-  }
-  div.tr {
-    background: #ececec;
   }
 }

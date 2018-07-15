@@ -1,0 +1,6 @@
+venv
+.idea
+__pycache__
+config.py
+order_counter.db
+test.db

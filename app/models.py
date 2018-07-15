@@ -38,10 +38,8 @@ class User(UserMixin, db.Model):
     def load_user(id: str):
         return User.query.get(int(id))
 
-    @classmethod
-    def password_change(cls, username: str, password: str):
-        user = cls.query.filter_by(name=username).first()
-        user.set_password(password)
+    def password_change(self, password: str):
+        self.set_password(password)
         db.session.commit()
 
 
@@ -97,6 +95,10 @@ class Item(db.Model):
         before_item.is_sale = is_sale
 
         db.session.commit()
+
+    @classmethod
+    def get_sale_list(cls) -> list:
+        return cls.query.filter_by(is_sale=True).all()
 
 
 class Order(db.Model):
