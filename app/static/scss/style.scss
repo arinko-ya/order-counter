@@ -1,0 +1,15 @@
+@import "edit_menu";
+
+span.error {
+  color: red;
+  display: block;
+}
+
+ul.alert_message {
+  margin: 10px 10px 0;
+  padding: 0;
+  li {
+    margin: 5px;
+    list-style-type: none;
+  }
+}

@@ -1,0 +1,28 @@
+div.table {
+  display: table; }
+  div.table .tr {
+    display: table-row; }
+    div.table .tr span.td {
+      display: table-cell;
+      padding: 8px 0;
+      text-align: center; }
+    div.table .tr span.th {
+      display: table-cell;
+      font-weight: bold;
+      padding: 10px 0;
+      text-align: center; }
+  div.table div.tr {
+    background: #ececec; }
+
+span.error {
+  color: red;
+  display: block; }
+
+ul.alert_message {
+  margin: 10px 10px 0;
+  padding: 0; }
+  ul.alert_message li {
+    margin: 5px;
+    list-style-type: none; }
+
+/*# sourceMappingURL=style.css.map */

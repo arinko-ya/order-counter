@@ -1,0 +1,66 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <h1>Add Menu</h1>
+  <p>Please register a new menu</p>
+  <form id="ItemEditForm" action="" method="post">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Item Name</th>
+          <th scope="col">Genre</th>
+          <th scope="col">Price</th>
+          <th scope="col">Is Sale</th>
+          <th scope="col">#</th>
+        </tr>
+      </thead>
+      <tbody>
+      {%- if item_list -%}
+      {%- for item in item_list -%}
+        <tr>
+          <td><input size="32" name="name_{{ item.id }}" value="{{ item.name }}"></td>
+          <td>
+            <select name="genre_id_{{ item.id }}">
+              {%- for genre in genre_list -%}
+              <option value="{{ genre.id }}" {% if item.genre.name == genre.name %}selected{%- endif -%}>{{ genre.name }}</option>
+              {%- endfor -%}
+            </select>
+          </td>
+          <td><input size="5" name="price_{{ item.id }}" value="{{ item.price }}"></td>
+          <td><input value="True" name="is_sale_{{ item.id }}" type="checkbox" {% if item.is_sale %}checked{% endif %}></td>
+          <td><button type="submit" form="ItemEditForm" formaction="{{ url_for('order_counter.update_item', item_id=item.id) }}">Update</button></td>
+        </tr>
+      {%- endfor -%}
+      {%- endif -%}
+      </tbody>
+    </table>
+  </form>
+  <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            {{ form.item_name(size=32) }}
+            {%- for error in form.item_name.errors -%}
+            <span class="error">[{{ error }}]</span>
+            {%- endfor -%}
+          </td>
+          <td>
+            {{ form.genre }}
+            {%- for error in form.genre.errors -%}
+            <span class="error">[{{ error }}]</span>
+            {%- endfor -%}
+          </td>
+          <td>
+            {{ form.price(size=5) }}
+            {%- for error in form.price.errors -%}
+            <span class="error">[{{ error }}]</span>
+            {%- endfor -%}
+          </td>
+          <td>{{ form.is_sale() }}</td>
+          <td>{{ form.submit() }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+{%- endblock -%}
