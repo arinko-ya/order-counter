@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from flask_login import LoginManager
-
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -17,6 +17,10 @@ else:
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+app.config['SESSION_SQLALCHEMY'] = db
+sess = Session(app)
+sess.app.session_interface.db.create_all()
 
 login = LoginManager(app)
 login.login_view = 'auth.login'
