@@ -13,10 +13,8 @@ def genre_edit():
     genre_list = Genre.query.all()
     form = GenreAdditionalForm()
     if form.validate_on_submit():
-        status, message = Genre.add_genre(form.genre.data)
-        category = 'info' if status == 'OK' else 'danger'
-
-        flash(message, category=category)
+        result = Genre.add_genre(form.genre.data)
+        flash(result.message, category=result.category)
 
         return redirect(url_for('genre.genre_edit'))
     return render_template('genre/genre_edit.html',
@@ -28,6 +26,7 @@ def genre_edit():
 @bp.route('/update/<genre_id>', methods=['GET', 'POST'])
 @login_required
 def genre_update(genre_id: str):
-    Genre.update(genre_id, request.form.get(f'genre_{genre_id}'))
+    result = Genre.update(genre_id, request.form.get(f'genre_{genre_id}'))
+    flash(result.message, category=result.category)
 
     return redirect(url_for('genre.genre_edit'))
