@@ -5,7 +5,7 @@ from wtforms import (StringField, BooleanField, SelectField,
                      IntegerField, SubmitField, DateField)
 from wtforms.validators import DataRequired
 
-from app.models import Genre
+from app.genre.models import Genre
 
 
 class EditItemForm(FlaskForm):

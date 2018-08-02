@@ -2,7 +2,9 @@ from flask import render_template, flash, redirect, url_for, request, session
 from flask_login import login_required
 
 from app import db
-from app.models import Item, Genre, Order
+from app.order.models import Order
+from app.item.models import Item
+from app.genre.models import Genre
 from app.order_counter import bp
 from app.order_counter.forms import EditItemForm, InputDateForm
 
@@ -59,16 +61,15 @@ def edit_item():
                            genre_list=genre_list)
 
 
-@bp.route('update_item/<item_id>', methods=['GET', 'POST'])
+@bp.route('/update_item/<item_id>', methods=['GET', 'POST'])
 @login_required
 def update_item(item_id):
-
     item = {'id': item_id,
             'name': request.form.get(f'name_{item_id}'),
             'genre_id': request.form.get(f'genre_id_{item_id}'),
             'price': request.form.get(f'price_{item_id}'),
             'is_sale': request.form.get(f'is_sale_{item_id}') == 'True'}
 
-    Item.update_item(**item)
+    Item.update(**item)
     flash('Item update is complete!')
     return redirect(url_for('order_counter.edit_item'))

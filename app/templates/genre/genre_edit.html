@@ -1,0 +1,40 @@
+{%- extends 'base.html' -%}
+{%- block content -%}
+  <h1>Add Genre</h1>
+  <p>Please register a new genre</p>
+  <form id="GenreAdditionalForm" action="" method="post">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Genre</th>
+        </tr>
+      </thead>
+      <tbody>
+      {%- if genre_list -%}
+      {%- for genre in genre_list -%}
+        <tr>
+          <td><input size="32" name="genre_{{ genre.id }}" value="{{ genre.name }}"></td>
+          <td><button type="submit" form="GenreAdditionalForm" formaction="{{ url_for('genre.genre_update', genre_id=genre.id) }}">Update</button></td>
+        </tr>
+      {%- endfor -%}
+      {%- endif -%}
+      </tbody>
+    </table>
+  </form>
+  <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            {{ form.genre(size=32) }}
+            {%- for error in form.genre.errors -%}
+            <span class="error">[{{ error }}]</span>
+            {%- endfor -%}
+          </td>
+          <td>{{ form.submit() }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+{%- endblock -%}

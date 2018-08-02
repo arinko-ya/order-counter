@@ -1,7 +1,8 @@
 import unittest
 
 from app import db
-from app.models import Genre, Item
+from app.genre.models import Genre
+from app.item.models import Item
 
 
 class TestOrderCounter(unittest.TestCase):
@@ -23,11 +24,11 @@ class TestOrderCounter(unittest.TestCase):
                 'price': 200,
                 'is_sale': False}
 
-        Item.update_item(**item)
+        Item.update(**item)
 
         changed_item = Item.query.filter_by(id=item['id']).first()
+        changed_item = changed_item.__dict__
 
-        self.assertEqual(changed_item.name, item['name'])
-        self.assertEqual(changed_item.genre_id, item['genre_id'])
-        self.assertEqual(changed_item.price, item['price'])
-        self.assertEqual(changed_item.is_sale, item['is_sale'])
+        for item_key in item.keys():
+            with self.subTest(item_key=item_key):
+                self.assertEqual(changed_item[item_key], item[item_key])

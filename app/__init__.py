@@ -28,9 +28,11 @@ login.login_view = 'auth.login'
 from app.auth import bp as auth_bp
 from app.menu import bp as menu_bp
 from app.order_counter import bp as order_counter_bp
+from app.genre import bp as genre_bp
 
 app.register_blueprint(auth_bp, url_prefix='/')
 app.register_blueprint(menu_bp, url_prefix='/menu')
 app.register_blueprint(order_counter_bp, url_prefix='/order_counter')
+app.register_blueprint(genre_bp, url_prefix='/genre')
 
-from app import models
+from app.order import models
