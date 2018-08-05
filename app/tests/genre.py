@@ -14,7 +14,7 @@ class TestGenre(unittest.TestCase):
         db.drop_all()
 
     def test_check_duplicate(self):
-        self.assertFalse(Genre.check_duplicate('test_genre2'))
+        self.assertFalse(Genre.check_duplicate('test_genre'))
         Genre.add_genre('test_genre')
         self.assertTrue(Genre.check_duplicate('test_genre'))
 

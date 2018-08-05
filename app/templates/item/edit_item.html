@@ -21,13 +21,13 @@
           <td>
             <select name="genre_id_{{ item.id }}">
               {%- for genre in genre_list -%}
-              <option value="{{ genre.id }}" {% if item.genre.name == genre.name %}selected{%- endif -%}>{{ genre.name }}</option>
+              <option value="{{ genre[0] }}" {% if item.genre.name == genre[1] %}selected{%- endif -%}>{{ genre[1] }}</option>
               {%- endfor -%}
             </select>
           </td>
           <td><input size="5" name="price_{{ item.id }}" value="{{ item.price }}"></td>
           <td><input value="True" name="is_sale_{{ item.id }}" type="checkbox" {% if item.is_sale %}checked{% endif %}></td>
-          <td><button type="submit" form="ItemEditForm" formaction="{{ url_for('order_counter.update_item', item_id=item.id) }}">Update</button></td>
+          <td><button type="submit" form="ItemEditForm" formaction="{{ url_for('item.update_item', item_id=item.id) }}">Update</button></td>
         </tr>
       {%- endfor -%}
       {%- endif -%}

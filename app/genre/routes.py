@@ -9,7 +9,7 @@ from app.genre.forms import GenreAdditionalForm
 @bp.route('/index', methods=['GET', 'POST'])
 @bp.route('/', methods=['GET', 'POST'])
 @login_required
-def genre_edit():
+def edit_genre():
     genre_list = Genre.query.all()
     form = GenreAdditionalForm()
     if form.validate_on_submit():

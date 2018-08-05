@@ -1,4 +1,5 @@
 from app import db
+from app.utils.log_util import Result, Status
 
 
 class Item(db.Model):
@@ -15,16 +16,29 @@ class Item(db.Model):
     def __repr__(self):
         return f'<Item {self.name}>'
 
-    def __init__(self, name: str, genre_id: str, price: int, is_sale: bool):
-        self.name = name
-        self.genre_id = int(genre_id)
-        self.price = price
-        self.is_sale = is_sale
+    @classmethod
+    def check_duplicate(cls, item_name: str) -> bool:
+        return bool(cls.query.filter_by(name=item_name).first())
+
+    @classmethod
+    def add_item(cls, **item):
+        if cls.check_duplicate(item['name']):
+            return Result(Status.FAILED, '{name} exists.')
+
+        db.session.add(cls(**item))
+        db.session.commit()
+        return Result(Status.SUCCEEDED, 'Successfully added item.')
 
     @classmethod
     def update(cls, id: int, name: str, genre_id: str,
                price: int, is_sale: bool):
+        if cls.check_duplicate(name):
+            return Result(Status.FAILED, '{name} exists.')
+
         before_item = cls.query.filter_by(id=id).first()
+
+        if not before_item:
+            return Result(Status.FAILED, 'Item update is failed.')
 
         before_item.name = name
         before_item.genre_id = int(genre_id)
@@ -32,6 +46,8 @@ class Item(db.Model):
         before_item.is_sale = is_sale
 
         db.session.commit()
+
+        return Result(Status.SUCCEEDED, 'Item update is complete!')
 
     @classmethod
     def get_sale_list(cls) -> list:

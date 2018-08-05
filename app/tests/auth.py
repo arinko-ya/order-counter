@@ -1,6 +1,6 @@
 import unittest
 
-from app.order.models import User
+from app.auth.models import User
 from app import db
 
 

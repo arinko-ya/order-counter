@@ -4,14 +4,16 @@ from app import db
 
 
 def main():
+    db.drop_all()
+    db.create_all()
     User.create('admin', 'password')
-    db.add_all([
-        Genre('Alcohol'),
-        Genre('Non Alcohol'),
-        Genre('Food'),
-        Genre('Other')
+    db.session.add_all([
+        Genre(name='Alcohol'),
+        Genre(name='Non Alcohol'),
+        Genre(name='Food'),
+        Genre(name='Other')
     ])
-    db.commit()
+    db.session.commit()
 
 
 if __name__ == '__main__':
