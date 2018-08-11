@@ -1,7 +1,6 @@
 from sqlalchemy.exc import OperationalError
 
 from app import db
-from app.item.models import Item
 from app.utils.log_util import Result, Status
 
 
@@ -12,7 +11,7 @@ class Genre(db.Model):
                    autoincrement=True, nullable=False)
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
 
-    item = db.relation(Item, backref=db.backref('genre', lazy=True))
+    item = db.relationship('Item', backref=db.backref('genre', lazy=True))
 
     def __repr__(self):
         return f'<Genre {self.name}>'

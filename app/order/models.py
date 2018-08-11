@@ -13,3 +13,6 @@ class Order(db.Model):
 
     def __repr__(self):
         return f'<Order {self.item_id}>'
+
+    def add_order(self, item_id, quantity):
+        pass

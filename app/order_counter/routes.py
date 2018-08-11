@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, session
+from flask import render_template, flash, redirect, url_for, session, request
 from flask_login import login_required
 
 from app.order.models import Order
@@ -35,3 +35,10 @@ def order_counter_setting():
         session['input_date'] = input_date
         return redirect(url_for('order_counter.order_counter'))
     return render_template('order_counter/input_date.html', form=form)
+
+
+@bp.route('/register', methods=['POST'])
+@login_required
+def register_order():
+    for item in Item.get_sale_list():
+        Order.add_order(request.form.get(f'val_{item.id}'))

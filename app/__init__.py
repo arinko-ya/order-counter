@@ -27,14 +27,14 @@ login.login_view = 'auth.login'
 
 from app.auth import bp as auth_bp
 from app.menu import bp as menu_bp
-from app.order_counter import bp as order_counter_bp
 from app.genre import bp as genre_bp
 from app.item import bp as item_bp
+from app.order import bp as order_bp
+from app.order_counter import bp as order_counter_bp
 
 app.register_blueprint(auth_bp, url_prefix='/')
 app.register_blueprint(menu_bp, url_prefix='/menu')
-app.register_blueprint(order_counter_bp, url_prefix='/order_counter')
 app.register_blueprint(genre_bp, url_prefix='/genre')
 app.register_blueprint(item_bp, url_prefix='/item')
-
-from app.order import models
+app.register_blueprint(order_bp, url_prefix='/order')
+app.register_blueprint(order_counter_bp, url_prefix='/order_counter')
