@@ -35,10 +35,9 @@ def edit_item():
 def update_item(item_id):
     item = {'id': item_id,
             'name': request.form.get(f'name_{item_id}'),
-            'genre_id': request.form.get(f'genre_id_{item_id}'),
+            'genre': Genre.query.get(request.form.get(f'genre_id_{item_id}')),
             'price': request.form.get(f'price_{item_id}'),
             'is_sale': request.form.get(f'is_sale_{item_id}') == 'True'}
 
     Item.update(**item)
-    flash('Item update is complete!')
     return redirect(url_for('item.edit_item'))

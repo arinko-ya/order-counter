@@ -1,14 +1,15 @@
+from sqlalchemy.exc import IntegrityError
+
 from app import db
+from app.genre.models import Genre
 from app.utils.log_util import Result, Status
 
 
 class Item(db.Model):
     __tablename__ = 'item'
 
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
-    name = db.Column(db.String(64), index=True,
-                     unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True, unique=True, nullable=False)
     genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'))
     price = db.Column(db.Integer, nullable=False)
     is_sale = db.Column(db.Boolean, nullable=False)
@@ -27,21 +28,25 @@ class Item(db.Model):
 
         db.session.add(cls(**item))
         db.session.commit()
+
         return Result(Status.SUCCEEDED, 'Successfully added item.')
 
     @classmethod
-    def update(cls, id: int, name: str, genre_id: str,
+    def update(cls, id: int, name: str, genre: Genre,
                price: int, is_sale: bool):
-        if cls.check_duplicate(name):
-            return Result(Status.FAILED, '{name} exists.')
+        before_item = cls.query.get(id)
 
-        before_item = cls.query.filter_by(id=id).first()
+        # 変更後の name が重複していたら failed を返す
+        if before_item.name == name:
+            pass
+        elif cls.check_duplicate(name):
+            return Result(Status.FAILED, f'{name} exists.')
 
         if not before_item:
             return Result(Status.FAILED, 'Item update is failed.')
 
         before_item.name = name
-        before_item.genre_id = int(genre_id)
+        before_item.genre = genre
         before_item.price = price
         before_item.is_sale = is_sale
 

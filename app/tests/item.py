@@ -18,9 +18,11 @@ class TestItem(unittest.TestCase):
         Genre.add_genre('test_genre')
         self.assertFalse(Item.check_duplicate('test_item'))
 
+        genre = Genre.query.get(1)
+
         item = {
             'name': 'test_item',
-            'genre_id': 1,
+            'genre': genre,
             'price': 100,
             'is_sale': True}
         _ = Item.add_item(**item)
@@ -29,11 +31,14 @@ class TestItem(unittest.TestCase):
 
     def test_add_item(self):
         Genre.add_genre('test_genre')
+        genre = Genre.query.get(1)
+
         item = {
             'name': 'test_item',
-            'genre_id': 1,
+            'genre': genre,
             'price': 100,
             'is_sale': True}
+
         result_succeeded = Item.add_item(**item)
 
         self.assertEqual(result_succeeded.status, Status.SUCCEEDED)
@@ -42,25 +47,46 @@ class TestItem(unittest.TestCase):
 
         self.assertEqual(result_failed.status, Status.FAILED)
 
-    def test_update(self):
+    def test_update_item_name(self):
         Genre.add_genre('test_genre')
+        genre = Genre.query.get(1)
+
+        before_update_item = {
+            'name': f'test_item_1',
+            'genre': genre,
+            'price': 100,
+            'is_sale': True}
+        _ = Item.add_item(**before_update_item)
+
+        before_update_item['id'] = 1
+        before_update_item['name'] = 'test_item_2'
+        result_succeeded = Item.update(**before_update_item)
+        self.assertEqual(result_succeeded.status, Status.SUCCEEDED)
+
+        fail_item = {
+            'name': f'test_item_10',
+            'genre': genre,
+            'price': 100,
+            'is_sale': True}
+        _ = Item.add_item(**fail_item)
+
+        fail_item['id'] = 2
+        fail_item['name'] = 'test_item_2'
+        result_failed = Item.update(**fail_item)
+        self.assertEqual(result_failed.status, Status.FAILED)
+
+    def test_update_is_sale(self):
+        Genre.add_genre('test_genre')
+        genre = Genre.query.get(1)
+
         item = {
             'name': 'test_item',
-            'genre_id': 1,
+            'genre': genre,
             'price': 100,
             'is_sale': True}
         _ = Item.add_item(**item)
 
         item['id'] = 1
-
-        item['name'] = 'test_item2'
-        result_succeeded = Item.update(**item)
-        self.assertEqual(result_succeeded.status, Status.SUCCEEDED)
-
-        item['name'] = 'test_item2'
-        result_failed = Item.update(**item)
-        self.assertEqual(result_failed.status, Status.FAILED)
-
-        item['genre_id'] = 999
-        result_failed_no_id = Item.update(**item)
-        self.assertEqual(result_failed_no_id.status, Status.FAILED)
+        item['is_sale'] = False
+        result = Item.update(**item)
+        self.assertEqual(result.status, Status.SUCCEEDED)
