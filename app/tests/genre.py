@@ -36,11 +36,12 @@ class TestGenre(unittest.TestCase):
 
     def test_update(self):
         Genre.add_genre('test_genre1')
+        Genre.add_genre('test_genre2')
 
-        result_succeeded = Genre.update('1', 'test_genre2')
+        result_succeeded = Genre.update('1', 'test_genre10')
         self.assertEqual(result_succeeded.status, Status.SUCCEEDED)
 
-        result_failed = Genre.update('1', 'test_genre2')
+        result_failed = Genre.update('2', 'test_genre10')
         self.assertEqual(result_failed.status, Status.FAILED)
 
         result_failed_no_id = Genre.update('999', 'test_genre999')

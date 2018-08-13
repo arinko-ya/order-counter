@@ -16,8 +16,8 @@ def edit_genre():
         result = Genre.add_genre(form.genre.data)
         flash(result.message, category=result.category)
 
-        return redirect(url_for('genre.genre_edit'))
-    return render_template('genre/genre_edit.html',
+        return redirect(url_for('genre.edit_genre'))
+    return render_template('genre/edit_genre.html',
                            title='Genre Edit',
                            form=form,
                            genre_list=genre_list)
@@ -29,4 +29,4 @@ def genre_update(genre_id: str):
     result = Genre.update(genre_id, request.form.get(f'genre_{genre_id}'))
     flash(result.message, category=result.category)
 
-    return redirect(url_for('genre.genre_edit'))
+    return redirect(url_for('genre.edit_genre'))
