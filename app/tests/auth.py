@@ -4,7 +4,7 @@ from app.auth.models import User
 from app import db
 
 
-class AuthTest(unittest.TestCase):
+class TestAuth(unittest.TestCase):
     def setUp(self):
         db.drop_all()
         db.create_all()
