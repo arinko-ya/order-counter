@@ -14,6 +14,7 @@ def edit_item():
     genre_list = Genre.get_genre_list()
     item_list = Item.query.all()
     form = EditItemForm()
+    form.genre.choices = genre_list
     if form.validate_on_submit():
         item = Item(name=form.item_name.data,
                     genre_id=form.genre.data,
