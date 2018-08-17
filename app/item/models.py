@@ -13,6 +13,7 @@ class Item(db.Model):
     genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'))
     price = db.Column(db.Integer, nullable=False)
     is_sale = db.Column(db.Boolean, nullable=False)
+    orders = db.relationship('Order', backref='item', lazy=True)
 
     def __repr__(self):
         return f'<Item {self.name}>'
