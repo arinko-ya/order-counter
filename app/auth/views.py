@@ -58,7 +58,7 @@ def password_change():
         user = User.query.filter_by(id=current_user.id).first()
         if not user.check_password(form.current_password.data):
             flash('Current password is incorrect', category='danger')
-            return redirect(url_for('order_counter.password_change'))
+            return redirect(url_for('order.password_change'))
         user.password_change(form.new_password.data)
         flash('Password changed')
         logout_user()

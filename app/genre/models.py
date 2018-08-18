@@ -5,7 +5,7 @@ from app.utils.log_util import Result, Status
 
 
 class Genre(db.Model):
-    __tablename__ = 'genre'
+    __tablename__ = 'genres'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
@@ -38,8 +38,7 @@ class Genre(db.Model):
         if genre_list:
             return [(str(g.id), g.name) for g in genre_list]
 
-        _ = cls.add_genre('Other')
-        cls.get_genre_list()
+        return [('no_genre', 'no_genre')]
 
     @classmethod
     def update(cls, genre_id: str, name: str) -> Result:

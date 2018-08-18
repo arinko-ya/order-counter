@@ -3,8 +3,8 @@ from flask_login import login_required
 
 from app.order.models import Order
 from app.item.models import Item
-from app.order_counter import bp
-from app.order_counter.forms import InputDateForm
+from app.order import bp
+from app.order.forms import InputDateForm
 
 
 @bp.route('/index', methods=['GET', 'POST'])
@@ -12,29 +12,29 @@ from app.order_counter.forms import InputDateForm
 @login_required
 def order_counter():
     if not session.get('input_date'):
-        return redirect(url_for('order_counter.order_counter_setting'))
+        return redirect(url_for('order.setting'))
 
     input_date = session['input_date']
     item_list = Item.get_sale_list()
-    return render_template('order_counter/order_counter.html',
-                           title='order_counter',
+    return render_template('order/order_counter.html',
+                           title='order',
                            item_list=item_list,
                            input_date=input_date)
 
 
 @bp.route('/setting', methods=['GET', 'POST'])
 @login_required
-def order_counter_setting():
+def setting():
     form = InputDateForm()
     if form.validate_on_submit():
         input_date = form.input_date.data
         order = Order.query.filter_by(date_sold=input_date).all()
         if order:
             flash('Already exists.', category='danger')
-            return redirect(url_for('order_counter.order_counter_setting'))
+            return redirect(url_for('order.setting'))
         session['input_date'] = input_date
-        return redirect(url_for('order_counter.order_counter'))
-    return render_template('order_counter/input_date.html', form=form)
+        return redirect(url_for('order.order_counter'))
+    return render_template('order/input_date.html', form=form)
 
 
 @bp.route('/register', methods=['POST'])

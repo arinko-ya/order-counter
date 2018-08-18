@@ -6,11 +6,11 @@ from app.utils.log_util import Result, Status
 
 
 class Item(db.Model):
-    __tablename__ = 'item'
+    __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
-    genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
     price = db.Column(db.Integer, nullable=False)
     is_sale = db.Column(db.Boolean, nullable=False)
     orders = db.relationship('Order', backref='item', lazy=True)
