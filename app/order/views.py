@@ -28,7 +28,7 @@ def setting():
     form = InputDateForm()
     if form.validate_on_submit():
         input_date = form.input_date.data
-        order = Order.query.filter_by(date_sold=input_date).all()
+        order = Order.query.filter_by(sold_at=input_date).all()
         if order:
             flash('Already exists.', category='danger')
             return redirect(url_for('order.setting'))

@@ -8,8 +8,7 @@ from app import db, login
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     last_seen = db.Column(db.DateTime, default=datetime.now())

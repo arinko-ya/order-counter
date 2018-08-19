@@ -19,7 +19,7 @@ def edit_item():
         item = Item(name=form.item_name.data,
                     genre_id=form.genre.data,
                     price=form.price.data,
-                    is_sale=form.is_sale.data)
+                    is_active=form.is_active.data)
         db.session.add(item)
         db.session.commit()
         flash('Menu addition completed')
@@ -38,7 +38,7 @@ def update_item(item_id):
             'name': request.form.get(f'name_{item_id}'),
             'genre': Genre.query.get(request.form.get(f'genre_id_{item_id}')),
             'price': request.form.get(f'price_{item_id}'),
-            'is_sale': request.form.get(f'is_sale_{item_id}') == 'True'}
+            'is_active': request.form.get(f'is_active_{item_id}') == 'True'}
 
     Item.update(**item)
     return redirect(url_for('item.edit_item'))
