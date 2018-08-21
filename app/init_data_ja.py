@@ -26,22 +26,22 @@ def main():
     etc = Genre.query.filter_by(name='その他').first()
 
     db.session.add_all([
-        Item(name='凍結レモンサワー', genre=alcohol, price=590, is_active=True),
-        Item(name='ほろ酔いカクテル', genre=alcohol, price=550, is_active=True),
-        Item(name='バラエティサワー', genre=alcohol, price=550, is_active=True),
-        Item(name='プレミアムモルツ', genre=alcohol, price=490, is_active=True),
-        Item(name='メガビームハイ', genre=alcohol, price=660, is_active=True),
-        Item(name='アイスコーヒー', genre=non_alcohol, price=300, is_active=True),
-        Item(name='ジャスミンティー', genre=non_alcohol, price=300, is_active=True),
-        Item(name='グレープフルーツジュース', genre=non_alcohol, price=340, is_active=True),
-        Item(name='オレンジジュース', genre=non_alcohol, price=340, is_active=True),
-        Item(name='アイスココア', genre=non_alcohol, price=330, is_active=True),
-        Item(name='タコとアボカドの和風マリネ', genre=food, price=520, is_active=True),
-        Item(name='切り落としローストビーフ', genre=food, price=680, is_active=True),
-        Item(name='紫キャベツのビタミンサラダ', genre=food, price=400, is_active=True),
-        Item(name='クリームチーズと蜂蜜ナッツ', genre=food, price=390, is_active=True),
-        Item(name='鉄板餃子', genre=food, price=500, is_active=True),
-        Item(name='スマイル・アゲイン', genre=etc, price=0, is_active=True),
+        Item(name='凍結レモンサワー', genre=alcohol, price=590, is_active=True, is_high_priority=True),
+        Item(name='ほろ酔いカクテル', genre=alcohol, price=550, is_active=True, is_high_priority=True),
+        Item(name='バラエティサワー', genre=alcohol, price=550, is_active=True, is_high_priority=False),
+        Item(name='プレミアムモルツ', genre=alcohol, price=490, is_active=True, is_high_priority=False),
+        Item(name='メガビームハイ', genre=alcohol, price=660, is_active=True, is_high_priority=False),
+        Item(name='アイスコーヒー', genre=non_alcohol, price=300, is_active=True, is_high_priority=False),
+        Item(name='ジャスミンティー', genre=non_alcohol, price=300, is_active=True, is_high_priority=False),
+        Item(name='グレープフルーツジュース', genre=non_alcohol, price=340, is_active=True, is_high_priority=True),
+        Item(name='オレンジジュース', genre=non_alcohol, price=340, is_active=True, is_high_priority=False),
+        Item(name='アイスココア', genre=non_alcohol, price=330, is_active=True, is_high_priority=False),
+        Item(name='タコとアボカドの和風マリネ', genre=food, price=520, is_active=True, is_high_priority=True),
+        Item(name='切り落としローストビーフ', genre=food, price=680, is_active=True, is_high_priority=False),
+        Item(name='紫キャベツのビタミンサラダ', genre=food, price=400, is_active=True, is_high_priority=False),
+        Item(name='クリームチーズと蜂蜜ナッツ', genre=food, price=390, is_active=True, is_high_priority=False),
+        Item(name='鉄板餃子', genre=food, price=500, is_active=True, is_high_priority=True),
+        Item(name='スマイル・アゲイン', genre=etc, price=0, is_active=True, is_high_priority=True),
     ])
 
     item_1 = Item.query.get(1)

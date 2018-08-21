@@ -9,4 +9,5 @@ class EditItemForm(FlaskForm):
     genre = SelectField('Genre', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
     is_active = BooleanField('Is sale')
+    is_high_priority = BooleanField('Is high priority')
     submit = SubmitField('Register')

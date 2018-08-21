@@ -11,6 +11,7 @@ class Item(db.Model):
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=True)
     price = db.Column(db.Integer, nullable=False)
     is_active = db.Column(db.Boolean, nullable=False)
+    is_high_priority = db.Column(db.Boolean, nullable=False, default=False)
     orders = db.relationship('Order', backref='item', lazy=True)
 
     def __repr__(self):
@@ -32,7 +33,7 @@ class Item(db.Model):
 
     @classmethod
     def update(cls, id: int, name: str, genre: Genre,
-               price: int, is_active: bool):
+               price: int, is_active: bool, is_high_priority: bool):
         before_item = cls.query.get(id)
 
         # 変更後の name が重複していたら failed を返す
@@ -48,6 +49,7 @@ class Item(db.Model):
         before_item.genre = genre
         before_item.price = price
         before_item.is_active = is_active
+        before_item.is_high_priority = is_high_priority
 
         db.session.commit()
 
@@ -55,4 +57,4 @@ class Item(db.Model):
 
     @classmethod
     def get_sale_list(cls) -> list:
-        return cls.query.filter_by(is_active=True).all()
+        return cls.query.filter_by(is_active=True).order_by(cls.is_high_priority.desc()).all()
