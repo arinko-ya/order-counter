@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, url_for, session, request
 from flask_login import login_required
 
-from app.order.models import Order
 from app.item.models import Item
 from app.order import bp
 from app.order.forms import InputDateForm
+from app.order.models import Order, OrderHistory
 
 
 @bp.route('/index', methods=['GET', 'POST'])
@@ -42,3 +42,15 @@ def setting():
 def register_order():
     for item in Item.get_sale_list():
         Order.add_order(request.form.get(f'val_{item.id}'))
+
+
+@bp.route('/history')
+@login_required
+def history():
+    order_summary_list = OrderHistory.calc()
+
+    return render_template(
+        'order/order_history.html',
+        title='Order History',
+        order_summary_list=order_summary_list
+    )
