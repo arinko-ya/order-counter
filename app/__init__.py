@@ -36,3 +36,13 @@ app.register_blueprint(menu_bp, url_prefix='/menu')
 app.register_blueprint(genre_bp, url_prefix='/genre')
 app.register_blueprint(item_bp, url_prefix='/item')
 app.register_blueprint(order_bp, url_prefix='/order')
+
+
+@app.template_filter()
+def number_format(value):
+    return f'¥{value:,}'
+
+
+@app.template_filter()
+def date_format(value):
+    return value.strftime('%Y/%m/%d')
