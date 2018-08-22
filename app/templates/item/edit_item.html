@@ -10,6 +10,7 @@
           <th scope="col">Genre</th>
           <th scope="col">Price</th>
           <th scope="col">Is sale</th>
+          <th scope="col">Is high priority</th>
           <th scope="col">#</th>
         </tr>
       </thead>
@@ -27,6 +28,7 @@
           </td>
           <td><input size="5" name="price_{{ item.id }}" value="{{ item.price }}"></td>
           <td><input value="True" name="is_active_{{ item.id }}" type="checkbox" {% if item.is_active %}checked{% endif %}></td>
+          <td><input value="True" name="is_high_priority_{{ item.id }}" type="checkbox" {% if item.is_high_priority %}checked{% endif %}></td>
           <td><button type="submit" form="ItemEditForm" formaction="{{ url_for('item.update_item', item_id=item.id) }}">Update</button></td>
         </tr>
       {%- endfor -%}
@@ -58,6 +60,7 @@
             {%- endfor -%}
           </td>
           <td>{{ form.is_active() }}</td>
+          <td>{{ form.is_high_priority() }}</td>
           <td>{{ form.submit() }}</td>
         </tr>
       </tbody>
