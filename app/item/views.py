@@ -2,10 +2,10 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_required
 
 from app import db
-from app.item.models import Item
 from app.genre.models import Genre
 from app.item import bp
 from app.item.forms import EditItemForm
+from app.item.models import Item
 
 
 @bp.route('/edit_item', methods=['GET', 'POST'])
@@ -19,7 +19,6 @@ def edit_item():
         item = Item(name=form.item_name.data,
                     genre_id=form.genre.data,
                     price=form.price.data,
-                    is_active=form.is_active.data,
                     is_high_priority=form.is_high_priority.data)
         db.session.add(item)
         db.session.commit()
@@ -39,8 +38,14 @@ def update_item(item_id):
             'name': request.form.get(f'name_{item_id}'),
             'genre': Genre.query.get(request.form.get(f'genre_id_{item_id}')),
             'price': request.form.get(f'price_{item_id}'),
-            'is_active': request.form.get(f'is_active_{item_id}') == 'True',
             'is_high_priority': request.form.get(f'is_high_priority_{item_id}') == 'True'}
 
     Item.update(**item)
+    return redirect(url_for('item.edit_item'))
+
+
+@bp.route('/update_active/<item_id>', methods=['POST'])
+@login_required
+def update_active(item_id):
+    Item.update_active(item_id)
     return redirect(url_for('item.edit_item'))

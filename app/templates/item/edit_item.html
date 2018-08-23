@@ -9,9 +9,9 @@
           <th scope="col">Item Name</th>
           <th scope="col">Genre</th>
           <th scope="col">Price</th>
-          <th scope="col">Is sale</th>
           <th scope="col">Is high priority</th>
-          <th scope="col">#</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -27,9 +27,13 @@
             </select>
           </td>
           <td><input size="5" name="price_{{ item.id }}" value="{{ item.price }}"></td>
-          <td><input value="True" name="is_active_{{ item.id }}" type="checkbox" {% if item.is_active %}checked{% endif %}></td>
           <td><input value="True" name="is_high_priority_{{ item.id }}" type="checkbox" {% if item.is_high_priority %}checked{% endif %}></td>
           <td><button type="submit" form="ItemEditForm" formaction="{{ url_for('item.update_item', item_id=item.id) }}">Update</button></td>
+          {% if item.is_active %}
+            <td><button type="submit" class="btn btn-danger btn-sm" formaction="{{ url_for('item.update_active', item_id=item.id) }}">Deactivate</button></td>
+          {% else %}
+            <td><button type="submit" class="btn btn-success btn-sm" formaction="{{ url_for('item.update_active', item_id=item.id) }}">Activate</button></td>
+          {% endif %}
         </tr>
       {%- endfor -%}
       {%- endif -%}
@@ -59,7 +63,6 @@
             <span class="error">[{{ error }}]</span>
             {%- endfor -%}
           </td>
-          <td>{{ form.is_active() }}</td>
           <td>{{ form.is_high_priority() }}</td>
           <td>{{ form.submit() }}</td>
         </tr>

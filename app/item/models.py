@@ -10,7 +10,7 @@ class Item(db.Model):
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=True)
     price = db.Column(db.Integer, nullable=False)
-    is_active = db.Column(db.Boolean, nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
     is_high_priority = db.Column(db.Boolean, nullable=False, default=False)
     orders = db.relationship('Order', backref='item', lazy=True)
 
@@ -33,7 +33,7 @@ class Item(db.Model):
 
     @classmethod
     def update(cls, id: int, name: str, genre: Genre,
-               price: int, is_active: bool, is_high_priority: bool):
+               price: int, is_high_priority: bool):
         before_item = cls.query.get(id)
 
         # 変更後の name が重複していたら failed を返す
@@ -48,12 +48,17 @@ class Item(db.Model):
         before_item.name = name
         before_item.genre = genre
         before_item.price = price
-        before_item.is_active = is_active
         before_item.is_high_priority = is_high_priority
 
         db.session.commit()
 
         return Result(Status.SUCCEEDED, 'Item update is complete!')
+
+    @classmethod
+    def update_active(cls, item_id: int):
+        item = Item.query.get(item_id)
+        item.is_active = not item.is_active
+        db.session.commit()
 
     @classmethod
     def get_sale_list(cls) -> list:
