@@ -12,7 +12,8 @@ from app.item.models import Item
 @login_required
 def edit_item():
     genre_list = Genre.get_genre_list()
-    item_list = Item.query.all()
+    active_item_list = Item.query.filter_by(is_active=True).all()
+    inactive_item_list = Item.query.filter_by(is_active=False).all()
     form = EditItemForm()
     form.genre.choices = genre_list
     if form.validate_on_submit():
@@ -27,7 +28,8 @@ def edit_item():
     return render_template('item/edit_item.html',
                            title='Edit item',
                            form=form,
-                           item_list=item_list,
+                           active_item_list=active_item_list,
+                           inactive_item_list=inactive_item_list,
                            genre_list=genre_list)
 
 
