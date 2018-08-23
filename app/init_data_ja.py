@@ -13,6 +13,7 @@ def main():
 
     User.create('admin', 'password')
 
+    db.session.add(Genre(name='No genre', is_default=True))
     db.session.add_all([
         Genre(name='アルコール'),
         Genre(name='ノンアルコール'),
