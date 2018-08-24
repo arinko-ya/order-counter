@@ -7,6 +7,7 @@ def main():
     db.drop_all()
     db.create_all()
     User.create('admin', 'password')
+    db.session.add(Genre(name='No genre', is_default=True))
     db.session.add_all([
         Genre(name='Alcohol'),
         Genre(name='Non Alcohol'),

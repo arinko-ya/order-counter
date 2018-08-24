@@ -15,6 +15,9 @@
         <tr>
           <td><input size="32" name="genre_{{ genre.id }}" value="{{ genre.name }}"></td>
           <td><button type="submit" form="GenreAdditionalForm" formaction="{{ url_for('genre.genre_update', genre_id=genre.id) }}">Update</button></td>
+          {% if not genre.is_default %}
+            <td><button type="submit" class="btn btn-danger btn-sm" formaction="{{ url_for('genre.delete', genre_id=genre.id) }}">Delete</button></td>
+          {% endif %}
         </tr>
       {%- endfor -%}
       {%- endif -%}

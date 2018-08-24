@@ -9,6 +9,7 @@ class Genre(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    is_default = db.Column(db.Boolean, nullable=False, default=False)
     items = db.relationship('Item', backref='genre', lazy=True)
 
     def __repr__(self):
@@ -56,3 +57,21 @@ class Genre(db.Model):
         db.session.commit()
 
         return Result(Status.SUCCEEDED, 'Genre update is complete!')
+
+
+class DeleteGenreService:
+    @classmethod
+    def submit(cls, genre_id: int):
+        genre = Genre.query.get(genre_id)
+        default_genre = Genre.query.filter_by(is_default=True).first()
+
+        if not genre or genre.is_default or not default_genre:
+            return Result(Status.FAILED, 'Genre deletion is failed.')
+
+        for item in genre.items:
+            item.genre = default_genre
+
+        db.session.delete(genre)
+        db.session.commit()
+
+        return Result(Status.SUCCEEDED, 'Genre deletion is complete!')
