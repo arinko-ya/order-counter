@@ -3,7 +3,47 @@
   <h1>Order Counter</h1>
   <p>{{ input_date }}</p>
   <form action="" method="post">
-    <div class="table">
+    <input type="submit" value="submit">
+    <ul class="nav nav-tabs">
+      {% for key in item_dict.keys() %}
+        <li class="nav-item">
+          <a class="nav-link{% if loop.first %} active{% endif %}"
+             data-toggle="tab" href="#genre-{{ loop.index }}"
+             aria-controls="genre-{{ loop.index }}"
+             aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+            {{ key }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="tab-content">
+      {% for key, item_list in item_dict.items() %}
+        <div class="tab-pane fade{% if loop.first %} show active{% endif %}"
+             id="genre-{{ loop.index }}"
+             aria-labelledby="genre-{{ loop.index }}-tab">
+          {{ table(item_list) }}
+        </div>
+      {% endfor %}
+    </div>
+  </form>
+{%- endblock -%}
+
+{%- block js_area -%}
+  <script language="JavaScript">
+    function plus(chk) {
+      chk.value++;
+    }
+
+    function minus(chk) {
+      if (chk.value != 0) {
+        chk.value--;
+      }
+    }
+  </script>
+{%- endblock -%}
+
+{% macro table(item_list) %}
+  <div class="table">
     {%- for item in item_list -%}
       <div class="tr">
         <span class="td name">{{ item.name }}</span>
@@ -17,20 +57,5 @@
         </span>
       </div>
     {%- endfor -%}
-    </div>
-    <input type="submit" value="submit">
-  </form>
-{%- endblock -%}
-
-{%- block js_area -%}
-<script language="JavaScript">
-  function plus(chk) {
-    chk.value++;
-  }
-  function minus(chk){
-    if (chk.value != 0) {
-      chk.value--;
-    }
-  }
-</script>
-{%- endblock -%}
+  </div>
+{% endmacro %}
