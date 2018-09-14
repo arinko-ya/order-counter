@@ -1,9 +1,14 @@
 {%- extends 'base.html' -%}
 {%- block content -%}
   <h1>Order Counter</h1>
-  <p>{{ input_date }}</p>
   <form action="" method="post">
-    <input type="submit" value="submit">
+    {{ form.hidden_tag() }}
+    {{ form.sold_at.label }}
+    {{ form.sold_at(value=request.args.get('sold_at') or sold_at) }}
+    {%- for error in form.sold_at.errors -%}
+      <span class="error">[{{ error }}]</span>
+    {%- endfor -%}
+    <p>{{ form.submit }}</p>
     <ul class="nav nav-tabs">
       {% for key in item_dict.keys() %}
         <li class="nav-item">
@@ -49,11 +54,9 @@
         <span class="td name">{{ item.name }}</span>
         <span class="td">{{ item.price }}</span>
         <span class="td">
-          <form>
             <input class="btn btn-primary" type=button value="＋" onClick="plus(this.form.val{{ item.id }})">
-            <input type=text name=val{{ item.id }} value=0 size=4>
+            <input type=text name="val{{ item.id }}" value=0 size=4>
             <input class="btn btn-danger" type=button value="－" onClick="minus(this.form.val{{ item.id }})">
-          </form>
         </span>
       </div>
     {%- endfor -%}
