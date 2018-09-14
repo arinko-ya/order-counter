@@ -1,3 +1,6 @@
+from collections import OrderedDict
+from itertools import groupby
+
 from flask import render_template, flash, redirect, url_for, session, request
 from flask_login import login_required
 
@@ -15,10 +18,21 @@ def order_counter():
         return redirect(url_for('order.setting'))
 
     input_date = session['input_date']
-    item_list = Item.get_sale_list()
+
+    item_list = Item.query.filter_by(
+        is_active=True
+    ).order_by(
+        Item.genre_id,
+        Item.is_high_priority.desc()
+    )
+
+    item_dict = OrderedDict()
+    for key, group in groupby(item_list, key=lambda x: x.genre.name):
+        item_dict[key] = list(group)
+
     return render_template('order/order_counter.html',
                            title='order',
-                           item_list=item_list,
+                           item_dict=item_dict,
                            input_date=input_date)
 
 
