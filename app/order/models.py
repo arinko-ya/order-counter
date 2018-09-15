@@ -16,14 +16,10 @@ class Order(db.Model):
                         nullable=False)
     price = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    sold_at = db.Column(db.TIMESTAMP, nullable=False,
-                        default=datetime.now().date())
+    sold_at = db.Column(db.Date, nullable=False)
 
     def __repr__(self):
         return f'<Order {self.item_id}>'
-
-    def add_order(self, item_id, quantity):
-        pass
 
 
 class OrderHistory:

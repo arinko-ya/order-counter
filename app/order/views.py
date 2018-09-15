@@ -2,23 +2,21 @@ from collections import OrderedDict
 from itertools import groupby
 
 from flask import render_template, flash, redirect, url_for, session, request
+from datetime import datetime
+
 from flask_login import login_required
 
 from app.item.models import Item
 from app.order import bp
+from app.order import registration
 from app.order.forms import InputDateForm
-from app.order.models import Order, OrderHistory
+from app.order.models import OrderHistory
 
 
 @bp.route('/index', methods=['GET', 'POST'])
 @bp.route('/', methods=['GET', 'POST'])
 @login_required
 def order_counter():
-    if not session.get('input_date'):
-        return redirect(url_for('order.setting'))
-
-    input_date = session['input_date']
-
     item_list = Item.query.filter_by(
         is_active=True
     ).order_by(
@@ -30,32 +28,26 @@ def order_counter():
     for key, group in groupby(item_list, key=lambda x: x.genre.name):
         item_dict[key] = list(group)
 
+    form = InputDateForm()
+    if form.validate_on_submit():
+        sold_at = form.data.get('sold_at')
+        add_list = []
+        for item in Item.get_sale_list():
+            add_list.append({
+                'item': Item.query.get(item.id),
+                'quantity': request.form.get(f'val{item.id}'),
+                'sold_at': sold_at
+            })
+        result = registration.save_order(add_list)
+        flash(result.message, category=result.category)
+
+        return redirect(url_for('order.order_counter', sold_at=sold_at))
+
     return render_template('order/order_counter.html',
                            title='order',
                            item_dict=item_dict,
-                           input_date=input_date)
-
-
-@bp.route('/setting', methods=['GET', 'POST'])
-@login_required
-def setting():
-    form = InputDateForm()
-    if form.validate_on_submit():
-        input_date = form.input_date.data
-        order = Order.query.filter_by(sold_at=input_date).all()
-        if order:
-            flash('Already exists.', category='danger')
-            return redirect(url_for('order.setting'))
-        session['input_date'] = input_date
-        return redirect(url_for('order.order_counter'))
-    return render_template('order/input_date.html', form=form)
-
-
-@bp.route('/register', methods=['POST'])
-@login_required
-def register_order():
-    for item in Item.get_sale_list():
-        Order.add_order(request.form.get(f'val_{item.id}'))
+                           form=form,
+                           sold_at=datetime.today().date())
 
 
 @bp.route('/history')
