@@ -1,5 +1,6 @@
 @import "order_counter";
 
+/* global */
 span.error {
   color: red;
   display: block;
@@ -13,3 +14,30 @@ ul.alert_message {
     list-style-type: none;
   }
 }
+
+/* contents nav */
+ul#ContentsNav {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0 10px;
+  li {
+    background: #f8f9fa;
+    border: solid 1px #94999e;
+    border-radius: 3px;
+    flex: 1;
+    margin: 20px 10px 0;
+    text-align: center;
+    a {
+      color: #333;
+      display: inline-block;
+      padding: 10px 0;
+      width: 100%;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
