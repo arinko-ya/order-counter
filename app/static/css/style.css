@@ -1,3 +1,4 @@
+/* order-counter */
 div.table {
   display: table; }
   div.table .name {
@@ -12,6 +13,7 @@ div.table {
       font-weight: bold;
       padding: 10px 0; }
 
+/* global */
 span.error {
   color: red;
   display: block; }
@@ -22,5 +24,27 @@ ul.alert_message {
   ul.alert_message li {
     margin: 5px;
     list-style-type: none; }
+
+/* contents nav */
+ul#ContentsNav {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0 10px; }
+  ul#ContentsNav li {
+    background: #f8f9fa;
+    border: solid 1px #94999e;
+    border-radius: 3px;
+    flex: 1;
+    margin: 20px 10px 0;
+    text-align: center; }
+    ul#ContentsNav li a {
+      color: #333;
+      display: inline-block;
+      padding: 10px 0;
+      width: 100%; }
+      ul#ContentsNav li a:hover {
+        text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */

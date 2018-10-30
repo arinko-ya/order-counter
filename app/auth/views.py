@@ -6,17 +6,11 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegisterForm, PasswordChangeForm
 
 
-@bp.route('/index')
-@bp.route('/')
-def index():
-    user = {'username': 'momopanda'}
-    return render_template('auth/index.html', title='Home', user=user)
-
-
-@bp.route('/login', methods=['GET', 'POST'])
+@bp.route('/index', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('menu.menu'))
+        return redirect(url_for('dashboard.dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(name=form.username.data).first()
@@ -24,14 +18,14 @@ def login():
             flash('Invalid username or password', category='danger')
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('menu.menu'))
+        return redirect(url_for('dashboard.dashboard'))
     return render_template('auth/login.html', title='Sign In', form=form)
 
 
 @bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('auth.index'))
+    return redirect(url_for('auth.login'))
 
 
 @login_required
